@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     //コンポーネント取得用
     private Rigidbody2D rb;
 
+    private Animator anim;
+
     //向きの設定に利用する
     private float scale;
 
@@ -20,6 +22,8 @@ public class PlayerController : MonoBehaviour
     {
         //必要なコンポーネントを取得して変数に代入
         rb = GetComponent<Rigidbody2D>();
+
+        anim = GetComponent<Animator>();
 
         scale = transform.localScale.x;
 
@@ -69,11 +73,30 @@ public class PlayerController : MonoBehaviour
             transform.localScale = temp;
 
 
+            //待機状態のアニメの再生を止めて、走るアニメの再生への遷移を行う
+            
+            //☆Idleアニメーションをfalseにして、待機アニメーションを停止する
+            anim.SetBool("Idle", false);
+            
+            //☆Runアニメーションに対して、0.5fの値を情報として渡す
+            //遷移条件がgreater 0.1なので0.1以上の値を渡すと条件が成立してRunアニメーションが再生される
+            anim.SetFloat("Run", 0.5f);
+
         }
         else
         {
             //左右の入力がなかったら横移動の速度を０にしてピタッと止まるようにする
             rb.velocity = new Vector2(0, rb.velocity.y);
+
+
+            //走るアニメの再生を止めて待機状態のアニメの再生への遷移を行う
+            
+            //☆Runアニメーションに対して、0.fの値を情報として渡す。
+            //遷移条件がless 0.1なので、0.1以下の値を渡すと条件が成立してRunアニメーションが停止される
+            anim.SetFloat("Run", 0.0f);
+
+            //☆Idleアニメーションをtrueにして、待機アニメーションを再生する
+            anim.SetBool("Idol", true);
         }
     }
 
