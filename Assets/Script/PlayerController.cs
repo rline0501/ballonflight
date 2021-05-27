@@ -7,17 +7,34 @@ public class PlayerController : MonoBehaviour
     //キー入力用の文字列指定（InputManagerのHorizontalの入力を判定するための文字列）
     private string horizontal = "Horizontal";
 
+    //キー入力用の文字列指定
+    private string jump = "Jump";
+
     //コンポーネント取得用
     private Rigidbody2D rb;
-
     private Animator anim;
+
+    //横方向の制限値
+    private float limitPosX = 9.5f;
+
+    //縦方向の制限値
+    private float limitPosY = 4.45f;
 
     //向きの設定に利用する
     private float scale;
 
     //移動速度
     public float moveSpeed;
-   
+
+    //ジャンプ・浮遊力
+    public float jumpPower;
+
+    public bool isGrounded;
+
+    [SerializeField, Header("Linecast用地面判定レイヤー")]
+    private LayerMask groundLayer;
+
+
     void Start()
     {
         //必要なコンポーネントを取得して変数に代入
@@ -28,6 +45,52 @@ public class PlayerController : MonoBehaviour
         scale = transform.localScale.x;
 
     }
+
+    void Update()
+    {
+
+        //地面接地 Physics2D.Linecastメソッドを実行してGroundLayerとキャラのコライダーが接触している距離かどうかを確認し
+        //設置しているならtrue、設置していないならfalseを戻す
+        isGrounded = Physics2D.Linecast(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, groundLayer);
+
+        //SceneビューにPhysics2D.LinecastメソッドのLineを表示する
+        Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
+
+     //ジャンプ
+     if(Input.GetButtonDown(jump))
+        {
+            Jump();
+        }
+
+        //設置していない（空中にいる）間で、落下中の場合
+        if(isGrounded == false && rb.velocity.y < 0.15f)
+        {
+            //落下アニメを繰り返す
+            anim.SetTrigger("Fall");
+        }
+
+        //Velocityの値が5.0fを超える場合（ジャンプを連続で押した場合）
+        if(rb.velocity.y > 5.0f)
+        {
+            //Velocityの値に制限をかける（落下せずに上空で待機できる現象を防ぐため）
+            rb.velocity = new Vector2(rb.velocity.x, 5.0f);
+        }
+
+
+    }
+
+    /// <summary>
+    /// ジャンプと空中浮遊
+    /// </summary>
+    private void Jump()
+    {
+        //キャラの位置を上方向へ移動させる（ジャンプ・浮遊）
+        rb.AddForce(transform.up * jumpPower);
+
+        //jump(Up + Mid)アニメーションを再生する
+        anim.SetTrigger("Jump");
+    }
+
 
     void FixedUpdate()
     {
@@ -98,6 +161,14 @@ public class PlayerController : MonoBehaviour
             //☆Idleアニメーションをtrueにして、待機アニメーションを再生する
             anim.SetBool("Idol", true);
         }
+
+        //現在の位置情報が移動制限の制限範囲を超えていないか確認する。超えていたら範囲内に収める
+        float posX = Mathf.Clamp(transform.position.x, -limitPosX, limitPosX);
+        float posY = Mathf.Clamp(transform.position.y, -limitPosY, limitPosY);
+
+        //現在の位置を更新（制限範囲を超えた場合、ここで移動の範囲を制限する）
+        transform.position = new Vector2(posX, posY);
+
     }
 
 

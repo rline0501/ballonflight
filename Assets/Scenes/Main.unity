@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Nature_props_15 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 4362164328708466, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -226,6 +230,10 @@ PrefabInstance:
     - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_Name
       value: Nature_props_15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4362164328708466, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_RootOrder
@@ -322,7 +330,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 313798797}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground_Start
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -357,6 +365,10 @@ PrefabInstance:
     - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_Name
       value: Nature_props_15 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4362164328708466, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_RootOrder
@@ -780,6 +792,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 3
+  jumpPower: 300
+  isGrounded: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &1808951025
 GameObject:
   m_ObjectHideFlags: 0
@@ -888,6 +905,10 @@ PrefabInstance:
     - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_Name
       value: Nature_props_15 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385549284409674, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4362164328708466, guid: 486f42fcb063b4b4fa79b395c40825eb, type: 3}
       propertyPath: m_RootOrder
