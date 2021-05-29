@@ -34,6 +34,21 @@ public class PlayerController : MonoBehaviour
     //GameObject型の配列。インスペクターからヒエラルキーにあるBallonゲームオブジェクト２つをアサインする
     public GameObject[] ballons;
 
+    //バルーンを生成する最大数
+    public int maxBallonCount;
+
+    //バルーンの生成位置の配列
+    public Transform[] ballonTrans;
+
+    //バルーンのプレファブ
+    public GameObject BallonPrefab;
+
+    //バルーンを生成する時間
+    public float generateTime;
+
+    //バルーン生成中かどうか判定する
+    public bool isGenerating;
+
     [SerializeField, Header("Linecast用地面判定レイヤー")]
     private LayerMask groundLayer;
 
@@ -47,6 +62,9 @@ public class PlayerController : MonoBehaviour
 
         scale = transform.localScale.x;
 
+        //配列の初期化（バルーンの最大生成数だけ配列の要素数を用意する）
+        ballons = new GameObject[maxBallonCount];
+
     }
 
     void Update()
@@ -59,8 +77,9 @@ public class PlayerController : MonoBehaviour
         //SceneビューにPhysics2D.LinecastメソッドのLineを表示する
         Debug.DrawLine(transform.position + transform.up * 0.4f, transform.position - transform.up * 0.9f, Color.red, 1.0f);
 
-        //Ballon配列変数の最大要素数が０以上なら = インスペクターでBallons変数に情報が登録されているなら
-        if (ballons.Length > 0)
+        //Ballons変数の最初の要素が空でないなら = バルーンが１つ生成されるとこの要素に値が代入される = バルーンが１つあるなら
+        //☆　条件を変更する　☆
+        if (ballons[0] != null)
         {
 
 
@@ -90,6 +109,18 @@ public class PlayerController : MonoBehaviour
         {
             //Velocityの値に制限をかける（落下せずに上空で待機できる現象を防ぐため）
             rb.velocity = new Vector2(rb.velocity.x, 5.0f);
+        }
+
+        //地面に接触していて、バルーンが生成できない場合
+        if(isGrounded == true && isGenerating == false)
+        {
+            //Qボタンを押したら
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                //バルーンを１つ作成する
+                StartCoroutine(GenerateBallon());
+            }
+
         }
 
 
@@ -134,9 +165,9 @@ public class PlayerController : MonoBehaviour
 
             //現在のキー入力値xをtemp.xに代入
             temp.x = x;
-            
+
             //向きが変わるときに小数になるとキャラが縮んで見えてしまうので整数値にする
-            if(temp.x > 0)
+            if (temp.x > 0)
             {
                 //数字が０より大きければすべて１にする
                 temp.x = scale;
@@ -153,10 +184,10 @@ public class PlayerController : MonoBehaviour
 
 
             //待機状態のアニメの再生を止めて、走るアニメの再生への遷移を行う
-            
+
             //☆Idleアニメーションをfalseにして、待機アニメーションを停止する
             anim.SetBool("Idle", false);
-            
+
             //☆Runアニメーションに対して、0.5fの値を情報として渡す
             //遷移条件がgreater 0.1なので0.1以上の値を渡すと条件が成立してRunアニメーションが再生される
             anim.SetFloat("Run", 0.5f);
@@ -169,7 +200,7 @@ public class PlayerController : MonoBehaviour
 
 
             //走るアニメの再生を止めて待機状態のアニメの再生への遷移を行う
-            
+
             //☆Runアニメーションに対して、0.fの値を情報として渡す。
             //遷移条件がless 0.1なので、0.1以下の値を渡すと条件が成立してRunアニメーションが停止される
             anim.SetFloat("Run", 0.0f);
@@ -184,6 +215,40 @@ public class PlayerController : MonoBehaviour
 
         //現在の位置を更新（制限範囲を超えた場合、ここで移動の範囲を制限する）
         transform.position = new Vector2(posX, posY);
+
+    }
+
+  ///<summary>
+  /// バルーン生成
+  ///</summary>
+  ///<returns></returns>
+  private IEnumerator GenerateBallon()
+    {
+        //すべての配列の要素にバルーンが存在している場合には、バルーンを生成しない
+        if(ballons[1] != null)
+        {
+            yield break;
+        }
+
+        //生成中状態にする
+        isGenerating = true;
+
+        //１つ目の配列の要素が空なら
+        if(ballons[0] == null){
+            //１つ目のバルーン生成を生成して、１番目の配列へ代入
+            ballons[0] = Instantiate(BallonPrefab, ballonTrans[0]);
+        }
+        else
+        {
+            //２つ目のバルーン生成を生成して、２番目の配列へ代入
+            ballons[1] = Instantiate(BallonPrefab, ballonTrans[1]);
+        }
+
+        //生成時間分待機
+        yield return new WaitForSeconds(generateTime);
+
+        //生成中状態終了。再度生成できるようにする
+        isGenerating = false;
 
     }
 
