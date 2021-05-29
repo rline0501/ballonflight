@@ -861,8 +861,8 @@ MonoBehaviour:
   - {fileID: 7604940923246906532, guid: 58dc2102187a1c54d82624e9ae2eefeb, type: 3}
   maxBallonCount: 2
   ballonTrans:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 411282733}
+  - {fileID: 377623136}
   BallonPrefab: {fileID: 7604940923246906532, guid: 58dc2102187a1c54d82624e9ae2eefeb, type: 3}
   generateTime: 2
   isGenerating: 0
