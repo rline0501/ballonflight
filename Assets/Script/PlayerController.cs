@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     //縦方向の制限値
     private float limitPosY = 4.45f;
 
+    //初めてバルーンを生成したかを判定するための変数（後ほど外部スクリプトでも利用するためpublicで宣言する）
+    public bool isFirstGenerateBallon;
+
     //向きの設定に利用する
     private float scale;
 
@@ -52,6 +55,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Header("Linecast用地面判定レイヤー")]
     private LayerMask groundLayer;
 
+    [SerializeField]
+    private StartChecker startChecker;
 
     void Start()
     {
@@ -232,6 +237,18 @@ public class PlayerController : MonoBehaviour
 
         //生成中状態にする
         isGenerating = true;
+
+        //isFirstGenerateBallon変数の値がfalse、つまりゲームを開始してからまだバルーンを１回も生成していないのなら
+        if(isFirstGenerateBallon  == false)
+        {
+            //初回バルーン生成を行ったと判断し、trueに変更する = 次回以降はバルーンを生成しても、if文の条件を満たさなくなり、この処理には入らない
+            isFirstGenerateBallon = true;
+
+            Debug.Log("初回のバルーン生成");
+
+            //startChecker変数に代入されているStartCheckerスクリプトにアクセスして、SetInitialSpeedメソッドを実行する
+            startChecker.SetInitialSpeed();
+        }
 
         //１つ目の配列の要素が空なら
         if(ballons[0] == null){
