@@ -10,7 +10,7 @@ public class BackgroundScroller : MonoBehaviour
     [Header("画像のスクロール終了地点")]
     public float stopPosition = -16f;
 
-    [Header("画像の再スタート地点")]
+    [Tooltip("画像の再スタート地点")]
     public float restartPosition = 5.8f;
 
 

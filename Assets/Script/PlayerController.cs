@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     private Animator anim;
 
     //横方向の制限値
-    private float limitPosX = 9.5f;
+    private float limitPosX = 8.5f;
 
     //縦方向の制限値
     private float limitPosY = 4.45f;
@@ -95,13 +95,18 @@ public class PlayerController : MonoBehaviour
                 Jump();
             }
 
-            //設置していない（空中にいる）間で、落下中の場合
+            // 接地していない（空中にいる）間で、落下中の場合
             if (isGrounded == false && rb.velocity.y < 0.15f)
             {
                 //落下アニメを繰り返す
                 anim.SetTrigger("Fall");
             }
 
+            else
+            if (isGrounded == true) 
+            {
+                anim.ResetTrigger("Fall");
+            }
 
         }
         else
@@ -116,7 +121,7 @@ public class PlayerController : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, 5.0f);
         }
 
-        //地面に接触していて、バルーンが生成できない場合
+        //地面に接触していて、バルーンを生成していない場合
         if(isGrounded == true && isGenerating == false)
         {
             //Qボタンを押したら
@@ -211,7 +216,7 @@ public class PlayerController : MonoBehaviour
             anim.SetFloat("Run", 0.0f);
 
             //☆Idleアニメーションをtrueにして、待機アニメーションを再生する
-            anim.SetBool("Idol", true);
+            anim.SetBool("Idle", true);
         }
 
         //現在の位置情報が移動制限の制限範囲を超えていないか確認する。超えていたら範囲内に収める

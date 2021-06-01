@@ -721,7 +721,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5300cf53bef23348bf2cf9e01b433ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.03
+  scrollSpeed: 0.003
   stopPosition: -20.7
   restartPosition: 20.7
 --- !u!1 &639093044
@@ -1116,8 +1116,8 @@ MonoBehaviour:
   jumpPower: 300
   isGrounded: 0
   ballons:
-  - {fileID: 5240736656593719626, guid: 8fd24073c9a7f76479794585742d5f97, type: 3}
-  - {fileID: 7604940923246906532, guid: 58dc2102187a1c54d82624e9ae2eefeb, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   maxBallonCount: 2
   ballonTrans:
   - {fileID: 411282733}
@@ -1224,7 +1224,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5300cf53bef23348bf2cf9e01b433ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scrollSpeed: 0.03
+  scrollSpeed: 0.003
   stopPosition: -20.7
   restartPosition: 20.7
 --- !u!1001 &1947557398
