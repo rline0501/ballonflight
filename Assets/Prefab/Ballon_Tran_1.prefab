@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7604940923246906523}
   - component: {fileID: 7604940923246906521}
   - component: {fileID: 7604940923246906522}
+  - component: {fileID: 7207965112123914828}
   m_Layer: 0
   m_Name: Ballon_Tran_1
   m_TagString: Untagged
@@ -99,3 +100,15 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 3.1000004, y: 6.4900007}
   m_Direction: 0
+--- !u!114 &7207965112123914828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7604940923246906532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db5f280c30eb5e24a8200a3bb5cd6d5b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
