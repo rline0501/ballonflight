@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour
     //バルーン生成中かどうか判定する
     public bool isGenerating;
 
+    //コインを獲得すると増えるポイントの総数
+    public int coinPoint;
+
     //敵と接触した際に吹き飛ばされる力
     public float knockbackPower;
 
@@ -312,5 +315,14 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    //IsTriggerがオンのコライダーを持つゲームオブジェクトを通過した場合に呼び出されるメソッド
+    private void OnTriggerEnter2D(Collider2D col)
+    {
+        //通過したコインのゲームオブジェクトの持つCoinスクリプトを取得し、point変数の値をキャラの持つcoinPoint変数に加算
+        coinPoint += col.gameObject.GetComponent<Coin>().point;
+
+        //通過したコインのゲームオブジェクトを破壊する
+        Destroy(col.gameObject);
+    }
 
 }
