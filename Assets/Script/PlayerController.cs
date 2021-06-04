@@ -55,6 +55,8 @@ public class PlayerController : MonoBehaviour
     //コインを獲得すると増えるポイントの総数
     public int coinPoint;
 
+    public UIManager uiManager;
+
     //敵と接触した際に吹き飛ばされる力
     public float knockbackPower;
 
@@ -320,6 +322,8 @@ public class PlayerController : MonoBehaviour
     {
         //通過したコインのゲームオブジェクトの持つCoinスクリプトを取得し、point変数の値をキャラの持つcoinPoint変数に加算
         coinPoint += col.gameObject.GetComponent<Coin>().point;
+
+        uiManager.UpdateDisplayScore(coinPoint);
 
         //通過したコインのゲームオブジェクトを破壊する
         Destroy(col.gameObject);
