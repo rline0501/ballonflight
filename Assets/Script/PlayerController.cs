@@ -20,6 +20,9 @@ public class PlayerController : MonoBehaviour
     //縦方向の制限値
     private float limitPosY = 4.45f;
 
+    //ゲームオーバー状態の判定用。trueならゲームオーバー
+    private bool isGameOver = false;
+
     //初めてバルーンを生成したかを判定するための変数（後ほど外部スクリプトでも利用するためpublicで宣言する）
     public bool isFirstGenerateBallon;
 
@@ -159,6 +162,11 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if(isGameOver == true)
+        {
+            return;
+        }
+
         //移動
         Move();
     }
@@ -320,13 +328,34 @@ public class PlayerController : MonoBehaviour
     //IsTriggerがオンのコライダーを持つゲームオブジェクトを通過した場合に呼び出されるメソッド
     private void OnTriggerEnter2D(Collider2D col)
     {
-        //通過したコインのゲームオブジェクトの持つCoinスクリプトを取得し、point変数の値をキャラの持つcoinPoint変数に加算
-        coinPoint += col.gameObject.GetComponent<Coin>().point;
+        Debug.Log(col.gameObject.name);
 
-        uiManager.UpdateDisplayScore(coinPoint);
+        if (col.gameObject.tag == "Coin")
+        {
 
-        //通過したコインのゲームオブジェクトを破壊する
-        Destroy(col.gameObject);
+            //通過したコインのゲームオブジェクトの持つCoinスクリプトを取得し、point変数の値をキャラの持つcoinPoint変数に加算
+            coinPoint += col.gameObject.GetComponent<Coin>().point;
+
+            uiManager.UpdateDisplayScore(coinPoint);
+
+            //通過したコインのゲームオブジェクトを破壊する
+            Destroy(col.gameObject);
+        }
     }
+
+    /// <summary>
+    /// ゲームオーバー
+    /// </summary>
+    public void GameOver()
+    {
+        isGameOver = true;
+
+        //ConsoleビューにisGameOver変数の値を表示する。ここが実行されるとtrueと表示される
+        Debug.Log(isGameOver);
+
+        //画面にゲームオーバー表示を行う
+        uiManager.DisplayGameOverInfo();
+    }
+
 
 }
