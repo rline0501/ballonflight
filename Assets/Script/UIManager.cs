@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -22,11 +23,25 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Transform canvasTran;
 
-   ///<summary>
-   ///スコア表示を更新
-   /// </summary>
-   ///<param name="score"></param>param>
-   public void UpdateDisplayScore(int score)
+    [SerializeField]
+    private Button btnInfo;
+
+    [SerializeField]
+    private Button btnTitle;
+
+    [SerializeField]
+    private Text lblStart;
+
+    [SerializeField]
+    private CanvasGroup canvasGroupTitle;
+
+    private Tweener tweener;
+
+    ///<summary>
+    ///スコア表示を更新
+    /// </summary>
+    ///<param name="score"></param>param>
+    public void UpdateDisplayScore(int score)
     {
         txtScore.text = score.ToString();
     }
@@ -43,9 +58,13 @@ public class UIManager : MonoBehaviour
         //文字列をアニメーションにさせて表示
         txtInfo.DOText("Game Over…", 1.0f);
 
+        btnInfo.onClick.AddListener(RestartGame);
+
     }
 
-
+    /// <summary>
+    /// ResultPopUpの生成
+    /// </summary>
     public void GenerateResultPopUp(int score)
     {
         //ResultPopUpを生成
@@ -54,5 +73,92 @@ public class UIManager : MonoBehaviour
         //ResultPopUpの設定を行う
         resultPopUp.SetUpResultPopUp(score);
     }
+
+    /// <summary>
+    /// タイトルへ戻る
+    /// </summary>
+    public void RestartGame()
+    {
+        //ボタンからメソッドを削除（重複クリック防止）
+        btnInfo.onClick.RemoveAllListeners();
+
+        //現在のシーン名を取得
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        canvasGroupInfo.DOFade(0f, 1.0f)
+            .OnComplete(() =>
+        {
+            Debug.Log("Restart");
+            SceneManager.LoadScene(sceneName);
+        });
+
+    }
+
+    private void Start()
+    {
+        //タイトル表示
+        SwitchDisplayTitle(true, 1.0f);
+
+        //ボタンのOnClickイベントにメソッドを登録
+        btnTitle.onClick.AddListener(OnClickTitle);
+    }
+
+    /// <summary>
+    /// タイトル表示
+    /// </summary>
+    public void SwitchDisplayTitle(bool isSwitch, float alpha)
+    {
+        if (isSwitch) canvasGroupTitle.alpha = 0;
+
+        canvasGroupTitle.DOFade(alpha, 1.0f).SetEase(Ease.Linear).OnComplete(() =>
+        {
+            lblStart.gameObject.SetActive(isSwitch);
+        });
+
+        if (tweener == null)
+        {
+
+            //Tap Startの文字をゆっくり点滅させる
+            tweener = lblStart.gameObject.GetComponent<CanvasGroup>().DOFade(0, 1.0f).SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+        }
+        else
+        {
+            tweener.Kill();
+        }
+    }
+
+    /// <summary>
+    /// タイトル表示中に画面をクリックした際の処理
+    /// </summary>
+    private void OnClickTitle()
+    {
+        //ボタンのメソッドを削除して重複タップの防止
+        btnTitle.onClick.RemoveAllListeners();
+
+        //タイトルを徐々に非表示
+        SwitchDisplayTitle(false, 0.0f);
+
+        //タイトル表示が消えるのと入れ替わりで、ゲームスタートの文字を表示する
+        StartCoroutine(DisplayGameStartInfo());
+    }
+
+    /// <summary>
+    /// タイトル表示中にクリックした際の処理
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator DisplayGameStartInfo()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        canvasGroupInfo.alpha = 0;
+        canvasGroupInfo.DOFade(1.0f, 0.5f);
+        txtInfo.text = "Game Start!";
+
+        yield return new WaitForSeconds(1.0f);
+        canvasGroupInfo.DOFade(0f, 0.5f);
+
+        canvasGroupTitle.gameObject.SetActive(false);
+    }
+
 
 }
