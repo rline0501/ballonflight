@@ -3,7 +3,16 @@ guid: d62f690013b46f643aa56bceb61429ab
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - txtScore: {instanceID: 0}
+  - txtInfo: {instanceID: 0}
+  - canvasGroupInfo: {instanceID: 0}
+  - resultPopUpPrefab: {fileID: 7135230837249017676, guid: a6c343305d4f2894283545bfe392cf25, type: 3}
+  - canvasTran: {instanceID: 0}
+  - btnInfo: {instanceID: 0}
+  - btnTitle: {instanceID: 0}
+  - lblStart: {instanceID: 0}
+  - canvasGroupTitle: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
