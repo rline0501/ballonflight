@@ -15,14 +15,16 @@ public class AudioManager : MonoBehaviour
     /// <returns></returns>
     public IEnumerator PlayBGM(int index)
     {
+        Debug.Log(index); //0
+
         //再生前に別の曲が流れている場合
-        if(index != 0)
+        if(index != 0) //0 != 0
         {
             //徐々にボリュームを下げる
             audioSources[index - 1].DOFade(0, 0.75f);
             //Debug.Log("前の曲のボリュームを下げる")
         }
-        if(index == 3)
+        if(index == 3) //0 == 3
         {
             //徐々にボリュームを下げる
             audioSources[index - 2].DOFade(0, 0.75f);

@@ -65,6 +65,7 @@ public class FloorGenerator : MonoBehaviour
 
         //生成数をカウントアップ
         gameDirector.GenerateCount++;
+        //int x = gameDirector.GenerateCount;
     }
 
     /// <summary>

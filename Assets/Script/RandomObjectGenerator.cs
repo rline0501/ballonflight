@@ -41,7 +41,7 @@ public class RandomObjectGenerator : MonoBehaviour
     void Update()
     {
         //’â~’†‚Í¶¬‚ğs‚í‚È‚¢
-        if(isActiveAndEnabled == false)
+        if(isActivate == false)
         {
             return;
         }
