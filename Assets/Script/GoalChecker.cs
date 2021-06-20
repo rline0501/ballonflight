@@ -16,6 +16,10 @@ public class GoalChecker : MonoBehaviour
 
     private GameDirector gameDirector;
 
+    [SerializeField]
+    //新しく作成したGround_Set_Screenゲームオブジェクトを捜査するための変数
+    private GameObject secretfloorObj;
+
     void Update()
     {
         //停止地点に到着するまで移動する
@@ -43,6 +47,12 @@ public class GoalChecker : MonoBehaviour
 
             //ゴール到着
             gameDirector.GoalClear();
+
+            //落下防止の床を表示
+            secretfloorObj.SetActive(true);
+
+            //落下防止の床を画面下からアニメさせて表示
+            secretfloorObj.transform.DOLocalMoveY(0.45f, 2.5f).SetEase(Ease.Linear).SetRelative();
         
         
         }
@@ -55,6 +65,9 @@ public class GoalChecker : MonoBehaviour
         this.gameDirector = gameDirector;
 
         //TODO 他に初期設定が必要な場合はここに追加する
+
+        //落下防止の床を非表示
+        secretfloorObj.SetActive(false);
     }
 
 }
